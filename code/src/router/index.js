@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/home'
+import home from '@/pages/home'
 import blogArticle from '@/pages/blogArticle'
 import marked from '@/pages/marked'
 

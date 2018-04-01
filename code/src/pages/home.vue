@@ -1,7 +1,12 @@
 <template>
-  <div class="hello">
-
-  </div>
+  <el-container>
+    <el-aside width="200px" class="sideNav" style="background-color: rgb(238, 241, 246)">
+      侧边栏
+    </el-aside>
+    <el-main>
+      
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -13,12 +18,7 @@ export default {
     };
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    }
+    
   }
 };
 </script>
