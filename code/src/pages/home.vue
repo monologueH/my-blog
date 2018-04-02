@@ -1,7 +1,7 @@
 <template>
   <el-container class="homePage"> 
     <el-aside width="200px" :class="[{'sideNavPackup':isPackup},'sideNav']">
-      <div class="packUpButton" @click="hideNav"></div>
+      <div class="packUpButton el-icon-d-arrow-left" @click="hideNav"></div>
       侧边栏
     </el-aside>
     <el-main class="homeContent">
@@ -45,7 +45,9 @@ export default {
         transform: translateY(-50%);
         transform: translateX(60%);
         width:36px;  
-        height:36px;  
+        height:36px;
+        line-height: 36px;  
+        color: #ccc;
         background-color: rgba(55, 55, 55, 0.9);
         // border-right: 16px solid rgba(55, 55, 55, 0.9);  
         // border-top: 8px solid transparent;  
