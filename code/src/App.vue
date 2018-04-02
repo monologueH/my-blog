@@ -4,19 +4,23 @@
       <el-header height='70px' class="pageHeader">
         <div class="blogTitle">monologueH's world!</div>
         <el-menu :default-active="activeIndex" class="blogNav" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1">处理中心</el-menu-item>
-          <el-submenu index="2">
+          <el-menu-item index="1">文章列表</el-menu-item>
+          <el-menu-item index="2">个人随笔</el-menu-item>
+          <!-- <el-submenu index="2">
             <template slot="title">我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
-          </el-submenu>
-          <el-menu-item index="3">消息中心</el-menu-item>
-          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+          </el-submenu> -->
+          <el-menu-item index="3">留言</el-menu-item>
+          <el-menu-item index="4">关于</el-menu-item>
         </el-menu>
       </el-header>
+      <transition name="el-fade-in-linear">
+        <router-view class="transition-box"></router-view>
+ 
+      </transition>
       
-      <router-view></router-view>
       
     </el-container>
   </div>
@@ -42,6 +46,7 @@ export default {
 html,
 body {
   height: 100%;
+  overflow: hidden;
 }
 a{
   text-decoration: none;
@@ -53,10 +58,10 @@ a{
     background-color: #eee;
   }
   .pageHeader {
-    background-color: #333;
+    background-color: #383838;
     .blogTitle {
       font-family: "Indie Flower", cursive;
-      width: 200px;
+      width: 400px;
       font-size: 24px;
       line-height: 70px;
       color: #fff;
@@ -67,14 +72,19 @@ a{
       height: 70px;
       background-color: #333;
       > .el-menu-item,.el-submenu__title {
+        text-align: center;
+        width: 150px;
         height: 70px;
+        line-height: 70px;
         color: #fff;
+        border-left: 1px solid #444;
+        z-index: 10000;
       }
       > .el-menu-item:hover,> .el-menu-item:focus,.el-submenu__title:hover,.el-submenu__title:focus {
         background-color: #444;
       }
       .el-menu-item.is-active {
-          border-bottom: 2px solid #fff;
+          border-bottom: 2px solid #999;
       }
     }
   }
