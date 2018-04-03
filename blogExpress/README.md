@@ -1,0 +1,2 @@
+- 命令行输入`sudo mongod`启动数据库
+- 输入npm start 开启后台服务
