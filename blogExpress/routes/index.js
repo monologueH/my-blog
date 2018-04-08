@@ -1,42 +1,51 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-// 开启mongoose连接
-mongoose.connect("mongodb://localhost/test", function (err) {
-  if (err) {
-    console.log('连接失败');
-    
+var mysql = require('mysql');
+var dbConfig = require('./DBconfig')
+var userSQL = require('./Usersql')
 
+// 使用DBConfig.js的配置信息创建一个MySQL连接池
+var pool = mysql.createPool(dbConfig.mysql);
+// 响应一个JSON数据
+var responseJSON = function (res, ret) {
+  if (typeof ret === 'undefined') {
+    res.json({
+      code: '-200', msg: '操作失败'
+    });
   } else {
-    console.log('连接成功');
-    var mySchema = new Schema({
-      title: String,
-      // subTitle: String,
-      // timeStamp: Number,
-      content: String,
-      // comments: [{ body: String, date: Date, hidden: Boolean }],
-    })
-    var MyModel = mongoose.model('MyModel', mySchema);
-    // var article1 = new MyModel({title:'testArticle',content:'我是内容'}).save(function (err,articles) {
-    //   console.log(articles)
-      
-    // })
-    MyModel.find(function (err, articles) {
-      console.log(articles)
-      /* GET home page. */
-      router.get('/article/:anything/:anything2', function (req, res, next) {
-        console.log(req.query)
-        console.log(req.body)
-        console.log(req.params)
-        res.send('req' + req.query.name)
-      });
-    })
+    res.json(ret);
   }
+};
+
+
+// 添加用户
+router.get('/addUser', function (req, res, next) {
+  // 从连接池获取连接 
+  pool.getConnection(function (err, connection) {
+    // 获取前台页面传过来的参数  
+    var param = req.query || req.params;
+    // 建立连接 增加一个用户信息 
+    console.log(param)
+    connection.query(userSQL.insert, [param.age, param.name], function (err, result) {
+      if (result) {
+        result = {
+          code: 200,
+          msg: '增加成功'
+        };
+      }
+      // console.log(res)
+
+      // 以json形式，把操作结果返回给前台页面     
+      responseJSON(res, result);
+
+      // 释放连接  
+      connection.release();
+
+    });
+  });
 });
 
 
-
-
-
 module.exports = router;
+
+
