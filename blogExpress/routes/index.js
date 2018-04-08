@@ -27,6 +27,7 @@ router.get('/addUser', function (req, res, next) {
     // 建立连接 增加一个用户信息 
     console.log(param)
     connection.query(userSQL.insert, [param.age, param.name], function (err, result) {
+      console.log(err)
       if (result) {
         result = {
           code: 200,
