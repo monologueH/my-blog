@@ -47,9 +47,10 @@ export default {
     titleFocus(e) {
       this.titlePlaceholder = "";
     },
-    titleBlur() {
+    titleBlur(e) {
+      this.articleTitle = e.target.value
       if (this.articleTitle == "") {
-        this.titlePlaceholder = "enter your md title!";
+        this.articleTitle = "enter your md title!";
       }
     }
   }
@@ -98,6 +99,7 @@ input {
       text-align: center;
       line-height: 50px;
       font-size: 28px;
+      color: #333;
     }
   }
   #editor {
