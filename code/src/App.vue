@@ -47,6 +47,8 @@ html,
 body {
   height: 100%;
   overflow: hidden;
+  background-color: #eee;
+  
 }
 a{
   text-decoration: none;

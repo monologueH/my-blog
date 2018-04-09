@@ -26,12 +26,13 @@ router.get('/addUser', function (req, res, next) {
     var param = req.query || req.params;
     // 建立连接 增加一个用户信息 
     console.log(param)
-    connection.query(userSQL.insert, [param.age, param.name], function (err, result) {
+    console.log(err)
+    connection.query(userSQL.delete, [param.id], function (err, result) {
       console.log(err)
       if (result) {
         result = {
           code: 200,
-          msg: '增加成功'
+          msg: '新增成功'
         };
       }
       // console.log(res)
