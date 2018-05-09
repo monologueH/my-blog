@@ -2,15 +2,21 @@
   <el-container>
     <el-main class="markedBody" height='700'>
       <div class="articleTitle">
-        <input type="text" @focus="titleFocus" @blur="titleBlur" class="titleInput" :placeholder="titlePlaceholder" :value="articleTitle">
+        <input type="text" @keydown="pressEnter" @focus="titleFocus" @blur="titleBlur" class="titleInput" :placeholder="titlePlaceholder" v-model="articleTitle">
       </div>
       <div id="editor">
-        <textarea :value="input" @input="update"></textarea>
+        <textarea v-model="input" @input="update"></textarea>
         <div v-html="compiledMarkdown"></div>
       </div>
     </el-main>
     <el-footer height="80px" class="footerOperate">
-      <el-button class="saveBtn" type="primary">保存</el-button>
+      <el-autocomplete
+        v-model="articleClass"
+        :fetch-suggestions="queryClassAsync"
+        placeholder="请输入文章类目"
+        @select="handleSelect"
+      ></el-autocomplete>
+      <el-button class="saveBtn" type="primary" @click="saveArticle">保存</el-button>
       <el-button class="cancelBtn">取消</el-button>
 
     </el-footer>
@@ -21,15 +27,22 @@
 <script>
 import _ from "lodash";
 import marked from "marked";
+import {request} from "../utils/request";
 export default {
   name: "markDown",
   data() {
     return {
       input: "# hello",
-      parsedMD: "",
+      parsedMD: '',
       articleTitle: "",
-      titlePlaceholder: "enter your md title!"
+      titlePlaceholder: "enter your md title!",
+      articleClass:'',
+      options : {}
+      
     };
+  },
+  mounted(){
+    this.init()
   },
   computed: {
     compiledMarkdown: function() {
@@ -37,10 +50,13 @@ export default {
     }
   },
   methods: {
+    init(){
+      var tokens = marked.lexer(this.input, this.options);
+      this.parsedMD = marked.parser(tokens);
+      console.log(this.parsedMD);
+    },
     update: _.debounce(function(e) {
-      this.input = e.target.value;
-      var options = {};
-      var tokens = marked.lexer(this.input, options);
+      var tokens = marked.lexer(this.input, this.options);
       this.parsedMD = marked.parser(tokens);
       console.log(this.parsedMD);
     }, 300),
@@ -48,10 +64,32 @@ export default {
       this.titlePlaceholder = "";
     },
     titleBlur(e) {
-      this.articleTitle = e.target.value
+      // this.articleTitle = e.target.value
       if (this.articleTitle == "") {
-        this.articleTitle = "enter your md title!";
+        this.titlePlaceholder = "enter your md title!";
       }
+    },
+    saveArticle(){
+      let params = {
+        title:this.articleTitle,
+        content:this.parsedMD
+      }
+      console.log(params.content)
+      request.addNewArticle(params).then((data)=>{
+        console.log(data)
+        if(data.code == 0) alert("修改成功")
+      })
+    },
+    pressEnter(e){
+      if(e.key == 'Enter'){
+        e.target.blur()
+      }
+    },
+    queryClassAsync(){
+
+    },
+    handleSelect(){
+
     }
   }
 };
@@ -135,8 +173,9 @@ input {
   background-color: #fff;
   box-sizing: border-box;
   padding: 10px 0 0 0;
-  margin-top: 10px;
+  margin-top: 5px;
   line-height: 50px;
+  box-shadow: 3px -3px 3px #ccc ;
   .saveBtn{
     float: right;
     margin-right: 70px;

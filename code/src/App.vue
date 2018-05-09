@@ -3,9 +3,10 @@
     <el-container class="pageWrap">
       <el-header height='70px' class="pageHeader">
         <div class="blogTitle">monologueH's world!</div>
-        <el-menu :default-active="activeIndex" class="blogNav" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1">文章列表</el-menu-item>
-          <el-menu-item index="2">个人随笔</el-menu-item>
+        <el-menu :default-active="activeIndex" class="blogNav" mode="horizontal" @select="handleSelect" :router=true>
+          <el-menu-item index="/">首页</el-menu-item>
+          <el-menu-item index="articleList">文章列表</el-menu-item>
+          <el-menu-item index="marked">个人随笔</el-menu-item>
           <!-- <el-submenu index="2">
             <template slot="title">我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
@@ -16,10 +17,10 @@
           <el-menu-item index="4">关于</el-menu-item>
         </el-menu>
       </el-header>
-      <transition name="el-fade-in-linear">
+      <!-- <transition name="el-fade-in-linear"> -->
         <router-view class="transition-box"></router-view>
  
-      </transition>
+      <!-- </transition> -->
       
       
     </el-container>
@@ -37,6 +38,7 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+      
     }
   }
 };
@@ -75,7 +77,7 @@ a{
       background-color: #333;
       > .el-menu-item,.el-submenu__title {
         text-align: center;
-        width: 150px;
+        width: 120px;
         height: 70px;
         line-height: 70px;
         color: #fff;
