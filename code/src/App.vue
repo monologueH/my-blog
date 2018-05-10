@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
       
     }
   }
@@ -62,6 +61,7 @@ a{
     background-color: #eee;
   }
   .pageHeader {
+    z-index: 0;
     background-color: #383838;
     .blogTitle {
       font-family: "Indie Flower", cursive;

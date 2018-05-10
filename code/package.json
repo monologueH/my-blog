@@ -16,8 +16,10 @@
     "element-ui": "^2.1.0",
     "lodash": "^4.17.5",
     "marked": "^0.3.12",
+    "simplemde": "^1.11.2",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-simplemde": "^0.4.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

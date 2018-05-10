@@ -28,6 +28,12 @@ const request = {
           .then(response => response.data)
           .catch(err => alert("获取标题列表失败"));
     },
+    queryArticle(params) {
+        return axios
+            .get("/article/queryArticle", { params })
+            .then(response => response.data)
+            .catch(err => alert("获取文章失败"));
+    },
 };
 
 export { request };

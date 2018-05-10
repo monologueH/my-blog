@@ -4,10 +4,8 @@
       <div class="articleTitle">
         <input type="text" @keydown="pressEnter" @focus="titleFocus" @blur="titleBlur" class="titleInput" :placeholder="titlePlaceholder" v-model="articleTitle">
       </div>
-      <div id="editor">
-        <textarea v-model="input" @input="update"></textarea>
-        <div v-html="compiledMarkdown"></div>
-      </div>
+      <markdown-editor v-model="content" ref="markdownEditor" :configs="configs"></markdown-editor>
+
     </el-main>
     <el-footer height="80px" class="footerOperate">
       <el-autocomplete
@@ -27,6 +25,7 @@
 <script>
 import _ from "lodash";
 import marked from "marked";
+const rendererMD = new marked.Renderer();
 import {request} from "../utils/request";
 export default {
   name: "markDown",
@@ -37,29 +36,30 @@ export default {
       articleTitle: "",
       titlePlaceholder: "enter your md title!",
       articleClass:'',
-      options : {}
+      content: '',
+      configs: {
+        status: false, // 禁用底部状态栏
+        spellChecker: false // 禁用拼写检查
+      }
       
     };
   },
-  mounted(){
-    this.init()
+  mounted() {
+    this.simplemde.codemirror.on('change', (instance, changeObj) => {
+        // do some things
+    var html = this.simplemde.markdown(this.content)
+    console.log(html)
+        
+    })
+    
   },
   computed: {
-    compiledMarkdown: function() {
-      return marked(this.input, { sanitize: true });
+    simplemde () {
+      return this.$refs.markdownEditor.simplemde
     }
   },
   methods: {
-    init(){
-      var tokens = marked.lexer(this.input, this.options);
-      this.parsedMD = marked.parser(tokens);
-      console.log(this.parsedMD);
-    },
-    update: _.debounce(function(e) {
-      var tokens = marked.lexer(this.input, this.options);
-      this.parsedMD = marked.parser(tokens);
-      console.log(this.parsedMD);
-    }, 300),
+    
     titleFocus(e) {
       this.titlePlaceholder = "";
     },
@@ -140,34 +140,28 @@ input {
       color: #333;
     }
   }
-  #editor {
-    margin: 0px 10px;
-    display: flex;
-    height: 100%;
-
-    textarea,
-    div {
-      flex: 1;
-      height: 100%;
-      vertical-align: top;
-      box-sizing: border-box;
-      padding: 5px;
-    }
-
-    textarea {
-      border: none;
-      border-right: 1px solid #ccc;
-      resize: none;
-      outline: none;
-      background-color: #f6f6f6;
-      font-size: 14px;
-      font-family: "Monaco", courier, monospace;
-    }
-    div {
-      background-color: #999;
-      overflow: auto;
-    }
+.CodeMirror {
+  flex: 1;
+}
+:focus {
+  outline: none;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  tr:nth-of-type(2n) td {
+    background-color: rgb(242, 242, 243);
   }
+  tr:nth-of-type(2n + 1) td {
+    background-color: rgb(248, 248, 248);
+  }
+
+  td:last-of-type {
+    margin-right: 0;
+    border: 1px solid rgb(221, 221, 221);
+  }
+}
+
 }
 .footerOperate{
   background-color: #fff;

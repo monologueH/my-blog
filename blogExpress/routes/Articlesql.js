@@ -5,7 +5,7 @@ var Articlesql = {
     "SELECT id,title,publishTime,modifyTime,commentNum,category FROM " +
     table +
     "",
-  getUserById: "SELECT * FROM " + table + " WHERE title = ? ",
+  getUserById: "SELECT * FROM " + table + " WHERE id = ? ",
   update: "update " + table + " set name=? where name=?",
   delete: "delete from " + table + " where id=?"
 };

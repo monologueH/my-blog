@@ -8,12 +8,14 @@ import './css/Tangerine.css'
 import Sjld from './components/sjld/index.js'
 import _ from 'lodash'
 import 'marked'
+import 'SimpleMDE/dist/simplemde.min.css'
+import VueSimplemde from 'vue-simplemde'
 import Axios from 'axios'
 import {request} from "./utils/request";
 import base from './utils/base'
 import App from './App'
 
-
+Vue.use(VueSimplemde)
 Vue.use(ElementUI,{size:'medium'})
 Vue.use(Sjld)
 Vue.use(base)
